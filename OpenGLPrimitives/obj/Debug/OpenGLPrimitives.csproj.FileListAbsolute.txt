@@ -1,0 +1,17 @@
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenGLPrimitives.exe.config
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenGLPrimitives.exe
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenGLPrimitives.pdb
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.GLControl.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.pdb
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.GLControl.pdb
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\OpenTK.GLControl.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csprojAssemblyReference.cache
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.exe.config
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.CoreCompileInputs.cache
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.CopyComplete
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.exe
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.pdb
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\ThreeD\fragmentShader.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\ThreeD\vertexShader.glsl
