@@ -34,15 +34,15 @@ namespace OpenGLPrimitives
             base.OnLoad(e);
 
             _shader = new Shader("Shaders/ThreeD/vertexShader.glsl", "Shaders/ThreeD/fragmentShader.glsl");
-            _light = new LightSource(new Vector4(5, 3, 3, 1), new Vector4(1, 1, 1, 1));
+            _light = new LightSource(new Vector4(0, 3, -4, 1), new Vector4(1, 1, 1, 1));
 
             _entities = new List<GameObject>
             {
-               // GameObjectFactory.CreateSphere(new Vector4(0, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
-                GameObjectFactory.CreateDodecahedron(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
-               // GameObjectFactory.CreateCube(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One),
-              //  GameObjectFactory.CreateTorus(new Vector4(0, 0, 3, 1), Vector3.Zero, Vector3.One),
-               // GameObjectFactory.CreatePyramid(new Vector4(0, 0, -3, 1), Vector3.Zero, Vector3.One)
+                GameObjectFactory.CreateTetrahedron(new Vector4(0, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
+                GameObjectFactory.CreateCube(new Vector4(3, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
+                GameObjectFactory.CreateOctahedron(new Vector4(6, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
+                GameObjectFactory.CreateDodecahedron(new Vector4(9, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
+                GameObjectFactory.CreateIcosahedron(new Vector4(12, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
             };
 
             SetupPerspective();
@@ -125,17 +125,55 @@ namespace OpenGLPrimitives
             if (!Focused)
                 return;
 
-            if (Keyboard.GetState().IsKeyDown(Key.W)) _camera.Move(0f, 1, 0f);
+            var sensivity = 0.05f;
 
-            if (Keyboard.GetState().IsKeyDown(Key.S)) _camera.Move(0f, -1, 0f);
+            if (Keyboard.GetState().IsKeyDown(Key.W))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position += Vector4.UnitZ * sensivity;
+                else
+                    _camera.Move(0f, 1, 0f);
+            }
 
-            if (Keyboard.GetState().IsKeyDown(Key.A)) _camera.Move(-1, 0f, 0f);
+            if (Keyboard.GetState().IsKeyDown(Key.S))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position -= Vector4.UnitZ * sensivity;
+                else
+                    _camera.Move(0f, -1, 0f);
+            }
 
-            if (Keyboard.GetState().IsKeyDown(Key.D)) _camera.Move(1, 0f, 0f);
+            if (Keyboard.GetState().IsKeyDown(Key.A))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position += Vector4.UnitX * sensivity;
+                else
+                    _camera.Move(-1, 0f, 0f);
+            }
 
-            if (Keyboard.GetState().IsKeyDown(Key.Q)) _camera.Move(0f, 0f, 1);
+            if (Keyboard.GetState().IsKeyDown(Key.D))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position -= Vector4.UnitX * sensivity;
+                else
+                    _camera.Move(1, 0f, 0f);
+            }
 
-            if (Keyboard.GetState().IsKeyDown(Key.E)) _camera.Move(0f, 0f, -1);
+            if (Keyboard.GetState().IsKeyDown(Key.Space))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position += Vector4.UnitY * sensivity;
+                else
+                    _camera.Move(0f, 0f, 1);
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
+            {
+                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                    _light.Position -= Vector4.UnitY * sensivity;
+                else
+                    _camera.Move(0f, 0f, -1);
+            }
 
             if (Keyboard.GetState().IsKeyDown(Key.Escape)) Exit();
 
@@ -144,10 +182,12 @@ namespace OpenGLPrimitives
 
             Vector2 delta = _lastMousePos - new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             _lastMousePos += delta;
-
+            
             _camera.AddRotation(delta.X, delta.Y);
+            
             if (Focused)
                 Mouse.SetPosition(Width / 2f, Height / 2f);
+            
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
         }
 

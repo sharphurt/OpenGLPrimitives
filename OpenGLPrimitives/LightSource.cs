@@ -8,8 +8,8 @@ namespace OpenGLPrimitives
 {
     public class LightSource
     {
-        public Vector4 Position { get; }
-        
+        public Vector4 Position { get; set; }
+
         public Vector4 Color { get; }
         
         public LightSource(Vector4 position, Vector4 color)

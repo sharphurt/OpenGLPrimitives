@@ -12,8 +12,8 @@ namespace OpenGLPrimitives.Primitives.ThreeD
     {
         public Sphere()
         {
-            DrawMethod = PrimitiveType.QuadStrip;
-            Vertices = Geometry.Geometry.CreateSphere(50, 50).ToArray();
+            Faces = Geometry.Geometry.CreateSphere(30, 30).ToArray();
+            PrimitiveType = PrimitiveType.TriangleStrip;
         }
     }
 }

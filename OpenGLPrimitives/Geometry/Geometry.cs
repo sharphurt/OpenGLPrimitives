@@ -61,125 +61,89 @@ namespace OpenGLPrimitives.Geometry
 
                     nt += 3;
 
-                    faces[i].A = pa;
-                    faces[i].B = pb;
-                    faces[i].C = pc;
+                    faces[i] = new Face(pa, pb, pc);
                 }
             }
 
             return faces;
         }
 
-        public static List<Vertex> CreateSphere(int lats, int longs)
+        public static Face[] CreateSphere(int UResolution, int VResolution)
         {
-            var vertices = new List<Vertex>();
-            int i, j;
-            for (i = 0; i <= lats; i++)
+            var startU = 0;
+            var startV = 0;
+            var endU = (float) Math.PI * 2;
+            var endV = (float) Math.PI;
+            var stepU = (endU - startU) / UResolution;
+
+            var faces = new List<Face>();
+
+            var stepV = (endV - startV) / VResolution;
+            for (var i = 0; i < UResolution; i++)
             {
-                float lat0 = (float) (Math.PI * (-0.5 + (double) (i - 1) / lats));
-                float z0 = (float) Math.Sin(lat0);
-                float zr0 = (float) Math.Cos(lat0);
-
-                float lat1 = (float) (Math.PI * (-0.5 + (float) i / lats));
-                float z1 = (float) Math.Sin(lat1);
-                float zr1 = (float) Math.Cos(lat1);
-
-                for (j = 0; j <= longs; j++)
+                // U-points
+                for (var j = 0; j < VResolution; j++)
                 {
-                    float lng = MathHelper.TwoPi * (j - 1) / longs;
-                    float x = (float) Math.Cos(lng);
-                    float y = (float) Math.Sin(lng);
-
-                    vertices.Add(new Vertex(new Vector4(x * zr0, y * zr0, z0, 1),
-                        new Vector4(x * zr0, y * zr0, z0, 1)));
-                    vertices.Add(new Vertex(new Vector4(x * zr1, y * zr1, z1, 1),
-                        new Vector4(x * zr1, y * zr1, z1, 1)));
-                }
-            }
-
-            return vertices;
-        }
-
-        public static Vertex[] CreateTorus(float radius)
-        {
-            const int numc = 100;
-            const int numt = 100;
-
-            var result = new List<Vertex>();
-
-            //Gl.glBegin(Gl.GL_QUAD_STRIP);
-
-            for (var i = 0; i < numc; i++)
-            for (var j = 0; j <= numt; j++)
-            for (var k = 0; k <= 1; k++)
-            {
-                var s = (float) (i + k) % numc + 0.5;
-                var t = j % numt;
-
-                var x = (float) ((radius + 0.1 * Math.Cos(s * MathHelper.TwoPi / numc)) *
-                                 Math.Cos(t * MathHelper.TwoPi / numt));
-                var y = (float) ((radius + 0.1 * Math.Cos(s * MathHelper.TwoPi / numc)) *
-                                 Math.Sin(t * MathHelper.TwoPi / numt));
-                var z = (float) (0.1 * Math.Sin(s * MathHelper.TwoPi / numc));
-
-                result.Add(new Vertex(new Vector4(2 * x, 2 * z, 2 * y, 1), new Vector4(x, z, y, 1)));
-            }
-
-            return result.ToArray();
-        }
-
-
-        public static Face[] CreateUnitSphere(int iterations)
-        {
-            var pa = new Vector4(1, 1, 1, 1);
-            var pb = new Vector4(-1, -1, 1, 1);
-            var pc = new Vector4(1, -1, -1, 1);
-            var pd = new Vector4(-1, 1, -1, 1);
-
-            var faces = new[]
-            {
-                new Face(pa, pb, pc),
-                new Face(pb, pa, pd),
-                new Face(pb, pd, pc),
-                new Face(pa, pc, pd)
-            }.ToList();
-
-            var n = 4;
-
-            for (var i = 1; i < iterations; i++)
-            {
-                var nstart = n;
-
-                for (var j = 0; j < nstart; j++)
-                {
-                    faces.AddRange(new[]
-                    {
-                        faces[j],
-                        faces[j],
-                        faces[j]
-                    });
-                    var p1 = VectorUtils.MiddlePoint(faces[j].A, faces[j].B);
-                    var p2 = VectorUtils.MiddlePoint(faces[j].B, faces[j].C);
-                    var p3 = VectorUtils.MiddlePoint(faces[j].C, faces[j].A);
-
-                    faces[j].B = p1;
-                    faces[j].C = p3;
-
-                    faces[n].A = p1;
-                    faces[n].C = p2;
-
-                    faces[n + 1].A = p3;
-                    faces[n + 1].B = p2;
-
-                    faces[n + 2].A = p1;
-                    faces[n + 2].B = p2;
-
-                    faces[n + 2].C = p3;
-                    n += 3;
+                    // V-points
+                    var u = i * stepU + startU;
+                    var v = j * stepV + startV;
+                    var un = (i + 1 == UResolution) ? endU : (i + 1) * stepU + startU;
+                    var vn = (j + 1 == VResolution) ? endV : (j + 1) * stepV + startV;
+                    // Find the four points of the grid
+                    // square by evaluating the parametric
+                    // surface function
+                    var p0 = Sphere(u, v, 1);
+                    var p1 = Sphere(u, vn, 1);
+                    var p2 = Sphere(un, v, 1);
+                    var p3 = Sphere(un, vn, 1);
+                    // NOTE: For spheres, the normal is just the normalized
+                    // version of each vertex point; this generally won't be the case for
+                    // other parametric surfaces.
+                    // Output the first triangle of this grid square
+                    faces.Add(new Face(p0, p2, p1));
+                    // Output the other triangle of this grid square
+                    faces.Add(new Face(p3, p1, p2));
                 }
             }
 
             return faces.ToArray();
         }
+
+        private static Vector4 Sphere(float u, float v, float r) =>
+            new Vector4((float) (Math.Cos(u) * Math.Sin(v) * r),
+                (float) (Math.Cos(v) * r),
+                (float) (Math.Sin(u) * Math.Sin(v) * r), 1);
+        
+
+        public static Face[] CreateTorus(int numc, int numt)
+        {
+            const float twopi = 2 * (float) Math.PI;
+
+            var faces = new List<Face>();
+            for (var i = 0; i < numc; i++)
+            {
+                var vertices = new List<Vector4>();
+                for (var j = numt; j >= 0; j--)
+                {
+                    for (var k = 1; k >= 0; k--)
+                    {
+                        var s = (float) ((i + k) % numc + 0.5);
+                        float t = j % numt;
+
+                        var x = (float) ((0.5 + .1 * Math.Cos(s * twopi / numc)) * Math.Cos(t * twopi / numt));
+                        var y = (float) ((0.5 + .1 * Math.Cos(s * twopi / numc)) * Math.Sin(t * twopi / numt));
+                        var z = (float) (.1 * Math.Sin(s * twopi / numc));
+                        vertices.Add(new Vector4(x, z, y, 1));
+                    }
+                }
+
+                faces.Add(new Face(vertices.ToArray()));
+            }
+
+            return faces.ToArray();
+        }
+
+        
+        
     }
 }
