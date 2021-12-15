@@ -77,6 +77,12 @@ namespace OpenGLPrimitives
         public static GameObject CreateCircle(Vector4 pos, Vector3 rot, Vector3 scale) =>
             new GameObject(new RegularPolygon(50), pos, rot, scale);
 
+        public static ObjGameObject FromObj(string objPath, Vector4 pos, Vector3 rot, Vector3 scale)
+        {
+            var meshes = ObjParser.Parse(objPath);
+            return new ObjGameObject(meshes, pos, rot, scale);
+        }
+        
         public static ObjGameObject FromObj(string obj, string mtl, string texturesFolder, Vector4 pos, Vector3 rot, Vector3 scale)
         {
             var meshes = ObjParser.Parse(obj, mtl, texturesFolder);

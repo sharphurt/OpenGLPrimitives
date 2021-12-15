@@ -22,7 +22,7 @@ namespace OpenGLPrimitives
             foreach (var mesh in Meshes)
             {
                 mesh.Bind();
-                mesh.Render(camera, light, shader);
+                mesh.Render();
             }
         }
     }

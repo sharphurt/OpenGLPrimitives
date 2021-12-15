@@ -9,17 +9,46 @@ namespace OpenGLPrimitives.Maintenance
     {
         public readonly int Handle;
 
+        public static Texture CreateEmpty()
+        {
+            int handle = GL.GenTexture();
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, handle);
+
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                (int) TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                (int) TextureMagFilter.Linear);
+
+            using (var image = new Bitmap(1, 1))
+            {
+                image.SetPixel(0, 0, Color.White);
+                var data = image.LockBits(
+                    new Rectangle(0, 0, 1, 1),
+                    ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 1, 1, 0, PixelFormat.Bgra,
+                    PixelType.UnsignedByte, data.Scan0);
+            }
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            
+            return new Texture(handle);
+        }
+
         public static Texture LoadFromFile(string path)
         {
             int handle = GL.GenTexture();
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, handle);
-            var image = new Bitmap(path);
-            /*using (var image = new Bitmap(path))
-            {*/
+            using (var image = new Bitmap(path))
+            {
                 image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                    var data = image.LockBits(
+                var data = image.LockBits(
                     new Rectangle(0, 0, image.Width, image.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -32,23 +61,26 @@ namespace OpenGLPrimitives.Maintenance
                     PixelFormat.Bgra,
                     PixelType.UnsignedByte,
                     data.Scan0);
-        //    }
+            }
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                (int) TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                (int) TextureMagFilter.Linear);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             return new Texture(handle);
         }
 
+
         public Texture(int glHandle)
         {
             Handle = glHandle;
         }
-        
+
         public void Use(TextureUnit unit)
         {
             GL.ActiveTexture(unit);

@@ -19,12 +19,6 @@ C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Deb
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.GenerateResource.cache
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\man.obj
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\teapot.obj
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\test.mtl
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\Textures\bottom.jpg
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\Textures\side.jpg
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\Textures\top.jpg
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\cube.obj
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\cube.mtl
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\Textures\c00_02_01_00_black.bmp
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\Textures\c00_02_01_00_fuku.bmp
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\Textures\c00_02_01_00_nail.bmp
@@ -41,3 +35,5 @@ C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Deb
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\Textures\c00_02_10_skin.bmp
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\girl.mtl
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\girl\girl.obj
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\Minecraft\cube.mtl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Data\Minecraft\cube.obj

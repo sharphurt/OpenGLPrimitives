@@ -31,7 +31,8 @@ namespace OpenGLPrimitives.Parser
                     var faceLines = GetMtlFaces(data, lineIndex);
                     var faces = ParseFaces(faceLines);
                     var (vertices, polygons) = CombinePolygons(points, normals, textureCoodinates, faces);
-                    meshes.Add(new Mesh(vertices.ToArray(), polygons.ToArray(), $"{texturesFolder}/{currentMtl.TexturePath}"));
+                    meshes.Add(new Mesh(vertices.ToArray(), polygons.ToArray(),
+                        $"{texturesFolder}/{currentMtl.TexturePath}"));
                     lineIndex += faceLines.Count;
                 }
                 else
@@ -39,6 +40,18 @@ namespace OpenGLPrimitives.Parser
             }
 
             return meshes;
+        }
+
+        public static List<Mesh> Parse(string objPath)
+        {
+            var (name, data) = ReadFile(objPath);
+            var points = ParseVectors3(data, "v ");
+            var normals = ParseVectors3(data, "vn ");
+            var faces = ParseFaces(data);
+
+            var (vertices, polygons) = CombinePolygons(points, normals, faces);
+
+            return new List<Mesh> {new Mesh(vertices.ToArray(), polygons.ToArray())};
         }
 
         private static List<string> GetMtlFaces(List<string> data, int startIndex)
@@ -100,6 +113,25 @@ namespace OpenGLPrimitives.Parser
         }
 
         private static (List<Vertex>, List<Polygon>) CombinePolygons(List<Vector4> points, List<Vector4> normals,
+            List<List<(int point, int normal, int texture)>> faceIndexes)
+        {
+            var result = (new List<Vertex>(), new List<Polygon>());
+            foreach (var v in faceIndexes.Select(faceIndex => faceIndex.Select(i =>
+            {
+                Vertex vertex = new Vertex(points[i.point - 1]);
+                vertex.Normal = i.normal != -1 ? normals[i.normal - 1] : vertex.Position.Normalized();
+                
+                return vertex;
+            }).ToList()))
+            {
+                result.Item1.AddRange(v);
+                result.Item2.Add(new Polygon(v.ToArray()));
+            }
+
+            return result;
+        }
+
+        private static (List<Vertex>, List<Polygon>) CombinePolygons(List<Vector4> points, List<Vector4> normals,
             List<Vector2> textures,
             List<List<(int point, int normal, int texture)>> faceIndexes)
         {
@@ -108,10 +140,10 @@ namespace OpenGLPrimitives.Parser
             {
                 Vertex vertex = new Vertex(points[i.point - 1]);
                 if (i.texture != -1)
-                    vertex.Texture = textures[i.texture - 1];
-
-                if (i.normal != -1)
-                    vertex.Normal = normals[i.normal - 1];
+                    vertex.TextureCoordinate = textures[i.texture - 1];
+                
+                vertex.Normal = i.normal != -1 ? normals[i.normal - 1] : vertex.Position.Normalized();
+                
                 return vertex;
             }).ToList()))
             {

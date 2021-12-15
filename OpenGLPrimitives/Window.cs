@@ -34,7 +34,6 @@ namespace OpenGLPrimitives
             TargetUpdateFrequency = 0;
             var about = new AboutWindow();
             about.ShowDialog();
-            
         }
 
         protected override void OnLoad(EventArgs e)
@@ -50,7 +49,8 @@ namespace OpenGLPrimitives
                     Vector3.One)*/
             };
 
-            
+
+            /*
             for (var x = -10; x < 10; x++)
             {
                 for (int z = 0; z < 20; z++)
@@ -63,12 +63,15 @@ namespace OpenGLPrimitives
                     _entities.Add(obj);
                 }
             }
-            
-            /*
+            */
+
+
             _entities.Add(GameObjectFactory.FromObj("Data/girl/girl.obj", "Data/girl/girl.mtl",
-                "Data/girl/Textures", new Vector4(0, 3, 0, 1), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f)));
-                */
-            
+                "Data/girl/Textures", new Vector4(0, 3, 0, 1), Vector3.Zero, new Vector3(0.05f, 0.05f, 0.05f)));
+
+            _entities.Add(GameObjectFactory.FromObj("Data/teapot.obj", new Vector4(0, 0, 0, 1), Vector3.Zero,
+                Vector3.One));
+
             SetupPerspective();
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -108,7 +111,7 @@ namespace OpenGLPrimitives
 
             ProcessKeyboard();
 
-            GL.ClearColor(Color.CornflowerBlue);
+            GL.ClearColor(Color.Black);
             GL.Enable(EnableCap.DepthTest);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

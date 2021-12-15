@@ -11,9 +11,9 @@ namespace OpenGLPrimitives.Geometry
     public class Mesh : IDisposable
     {
         public Polygon[] Polygons { get; }
-        
+
         public Vertex[] Vertices { get; }
-        
+
         public Texture Texture { get; }
 
         private PrimitiveType _primitiveType;
@@ -28,7 +28,15 @@ namespace OpenGLPrimitives.Geometry
             Texture = Texture.LoadFromFile(texturePath);
             InitializeBuffers();
             _primitiveType = GetPrimitiveType(Polygons[0]);
+        }
 
+        public Mesh(Vertex[] vertices, Polygon[] polygons)
+        {
+            Vertices = vertices;
+            Polygons = polygons;
+            Texture = Texture.CreateEmpty();
+            InitializeBuffers();
+            _primitiveType = GetPrimitiveType(Polygons[0]);
         }
 
         private void InitializeBuffers()
@@ -59,14 +67,13 @@ namespace OpenGLPrimitives.Geometry
             GL.BindBuffer(BufferTarget.ArrayBuffer, Buffer);
         }
 
-        
 
         public void Bind()
         {
             GL.BindVertexArray(VertexArray);
-            Texture.Use(TextureUnit.Texture0);
+            Texture?.Use(TextureUnit.Texture0);
         }
-        
+
         private PrimitiveType GetPrimitiveType(Polygon polygon)
         {
             switch (polygon.Vertices.Length)
@@ -78,13 +85,13 @@ namespace OpenGLPrimitives.Geometry
                 default: return PrimitiveType.Polygon;
             }
         }
-        
-        public void Render(ICamera camera, LightSource light, Shader shader)
+
+        public void Render()
         {
             Bind();
             GL.DrawArrays(_primitiveType, 0, Vertices.Length);
         }
-        
+
         public void Dispose()
         {
         }
