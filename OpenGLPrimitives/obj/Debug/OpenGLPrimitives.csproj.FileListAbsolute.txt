@@ -13,5 +13,7 @@ C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Deb
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.CopyComplete
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.exe
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.pdb
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\ThreeD\fragmentShader.glsl
-C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\ThreeD\vertexShader.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\fragmentShader.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\vertexShader.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.AboutWindow.resources
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.GenerateResource.cache

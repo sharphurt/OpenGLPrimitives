@@ -1,4 +1,5 @@
-﻿using OpenGLPrimitives.Geometry;
+﻿using System.Linq;
+using OpenGLPrimitives.Geometry;
 using OpenGLPrimitives.Utils;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -7,26 +8,25 @@ namespace OpenGLPrimitives.Primitives.ThreeD.RegularPolyhedron
 {
     public class Tetrahedron : Entity
     {
+        private readonly Vector4[] _points =
+        {
+            new Vector4(1, 1, 1, 1),
+            new Vector4(-1, -1, 1, 1),
+            new Vector4(1, -1, -1, 1),
+            new Vector4(-1, 1, -1, 1)
+        };
+
+        private readonly int[][] _indices =
+        {
+            new[] {0, 1, 2},
+            new[] {1, 0, 3},
+            new[] {1, 3, 2},
+            new[] {0, 2, 3}
+        };
+
         public Tetrahedron()
         {
-            var basics = new[]
-            {
-                new Vector4(1, 1, 1, 1),
-                new Vector4(-1, -1, 1, 1),
-                new Vector4(1, -1, -1, 1),
-                new Vector4(-1, 1, -1, 1)
-            };
-
-            var faces = new[]
-            {
-                new Face(basics[0], basics[1], basics[2]),
-                new Face(basics[1], basics[0], basics[3]),
-                new Face(basics[1], basics[3], basics[2]),
-                new Face(basics[0], basics[2], basics[3])
-            };
-
-            DrawMethod = PrimitiveType.Triangles;
-            Vertices = VectorUtils.FacesToVertices(faces, 1);
+            Faces = _indices.Select(f => new Face(f.Select(i => _points[i] * 0.5f).ToArray())).ToArray();
         }
     }
 }

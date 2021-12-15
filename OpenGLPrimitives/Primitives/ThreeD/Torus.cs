@@ -6,8 +6,8 @@ namespace OpenGLPrimitives.Primitives.ThreeD
     {
         public Torus()
         {
-            Vertices = Geometry.Geometry.CreateTorus(0.5f);
-            DrawMethod = PrimitiveType.QuadStrip;
+            PrimitiveType = PrimitiveType.QuadStrip;
+            Faces = Geometry.Geometry.CreateTorus(50, 50);
         }
     }
 }

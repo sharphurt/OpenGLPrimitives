@@ -10,10 +10,10 @@ namespace OpenGLPrimitives.Primitives.ThreeD
 {
     public class Sphere : Entity
     {
-        public Sphere()
+        public Sphere(int uRes, int vRes)
         {
-            DrawMethod = PrimitiveType.QuadStrip;
-            Vertices = Geometry.Geometry.CreateSphere(50, 50).ToArray();
+            Faces = Geometry.Geometry.CreateSphere(uRes, vRes).ToArray();
+            PrimitiveType = PrimitiveType.TriangleStrip;
         }
     }
 }
