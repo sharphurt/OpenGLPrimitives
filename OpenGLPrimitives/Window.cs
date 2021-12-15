@@ -21,9 +21,7 @@ namespace OpenGLPrimitives
         private Shader _shader;
 
         private LightSource _light;
-
-        private float _time;
-
+        
         public Window() : base(1280, 720, OpenTK.Graphics.GraphicsMode.Default, "OpenGL Primitives")
         {
             VSync = VSyncMode.On;
@@ -38,8 +36,8 @@ namespace OpenGLPrimitives
 
             _entities = new List<Object>
             {
-                /*GameObjectFactory.CreatePyramid(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreatePyramid(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
+                /*GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
                 GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
                 GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
                 GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
@@ -50,20 +48,14 @@ namespace OpenGLPrimitives
                 GameObjectFactory.CreateIcosahedron(new Vector4(27, 0, 0, 1), Vector3.Zero, Vector3.One),
                 GameObjectFactory.CreateCylinder(new Vector4(30, 0, 0, 1), Vector3.Zero, Vector3.One),
                 GameObjectFactory.CreateConus(new Vector4(33, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),*/
-                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One)
+                GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One)*/
             };
 
             SetupPerspective();
-            MouseDown += ProcessMouse;
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             CursorVisible = false;
-        }
-
-        private void ProcessMouse(object sender, MouseButtonEventArgs args)
-        {
-            if (args.Button != MouseButton.Left) return;
         }
 
         private void SetupPerspective()
@@ -125,7 +117,6 @@ namespace OpenGLPrimitives
             DrawAxes();
 
             SwapBuffers();
-            _time += 0.01f;
         }
 
         private void ProcessKeyboard()

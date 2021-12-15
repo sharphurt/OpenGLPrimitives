@@ -10,11 +10,11 @@ namespace OpenGLPrimitives.Primitives.ThreeD
     {
         private readonly Vector4[] _points =
         {
-            new Vector4(0, 1, 0, 1),
-            new Vector4(-1, -1, 1, 1),
-            new Vector4(1, -1, 1, 1),
-            new Vector4(1, -1, -1, 1),
-            new Vector4(-1, -1, -1, 1)
+            new Vector4(0, 0.5f, 0, 1),
+            new Vector4(-0.5f, -0.5f, 0.5f, 1),
+            new Vector4(0.5f, -0.5f, 0.5f, 1),
+            new Vector4(0.5f, -0.5f, -0.5f, 1),
+            new Vector4(-0.5f, -0.5f, -0.5f, 1)
         };
 
         private readonly int[][] _indices =

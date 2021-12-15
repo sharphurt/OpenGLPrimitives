@@ -59,8 +59,6 @@
         <Compile Include="LightSource.cs" />
         <Compile Include="Object.cs" />
         <Compile Include="Primitives\Entity.cs" />
-        <Compile Include="Primitives\RegularPolygon.cs" />
-        <Compile Include="Primitives\SimplePolygon.cs" />
         <Compile Include="Primitives\ThreeD\Cylinder.cs" />
         <Compile Include="Primitives\ThreeD\Pyramid.cs" />
         <Compile Include="Primitives\ThreeD\RegularPolyhedron\Cube.cs" />
@@ -70,8 +68,9 @@
         <Compile Include="Primitives\ThreeD\RegularPolyhedron\Tetrahedron.cs" />
         <Compile Include="Primitives\ThreeD\Sphere.cs" />
         <Compile Include="Primitives\ThreeD\Torus.cs" />
-        <Compile Include="Primitives\TwoD\Circle.cs" />
         <Compile Include="Primitives\TwoD\Plane.cs" />
+        <Compile Include="Primitives\TwoD\RegularPolygon.cs" />
+        <Compile Include="Primitives\TwoD\SimplePolygon.cs" />
         <Compile Include="Primitives\TwoD\Trapezoid.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
