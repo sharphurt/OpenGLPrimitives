@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using OpenGLPrimitives.Camera;
+using OpenGLPrimitives.Parser;
 using OpenGLPrimitives.Primitives.ThreeD;
 using OpenGLPrimitives.Primitives.TwoD;
 using OpenGLPrimitives.Utils;
@@ -28,8 +30,11 @@ namespace OpenGLPrimitives
         {
             VSync = VSyncMode.On;
             WindowState = WindowState.Maximized;
+            TargetRenderFrequency = 0;
+            TargetUpdateFrequency = 0;
             var about = new AboutWindow();
             about.ShowDialog();
+            
         }
 
         protected override void OnLoad(EventArgs e)
@@ -41,27 +46,29 @@ namespace OpenGLPrimitives
 
             _entities = new List<Object>
             {
-                GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTetrahedron(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateOctahedron(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateDodecahedron(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateIcosahedron(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCylinder(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateConus(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateSpiral(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateRegularPolygon(5, new Vector4(-6, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreatePyramid(new Vector4(-9, 0, 0, 1), Vector3.Zero, Vector3.One)
+                /*GameObjectFactory.FromObj("Data/cube.obj", "Data/cube.mtl", new Vector4(0, 0, 0, 1), Vector3.Zero,
+                    Vector3.One)*/
             };
 
-            var polygonVertices = new[] {new Vector4(2, -3, 1, 1), new Vector4(-3, 2, -2, 1), new Vector4(1, 1, 1, 1)};
-            _entities.Add(GameObjectFactory.CreatePolygon(polygonVertices, new Vector4(-12, 0, 0, 1), Vector3.Zero,
-                Vector3.One));
+            
+            for (var x = -10; x < 10; x++)
+            {
+                for (int z = 0; z < 20; z++)
+                {
+                    var y = (int) Math.Round(Math.Cos((x + z) * 0.2) * 2);
 
+                    var obj = GameObjectFactory.FromObj("Data/cube.obj", "Data/cube.mtl", "Data/Textures",
+                        new Vector4(x, y, z, 1), Vector3.Zero, Vector3.One);
+
+                    _entities.Add(obj);
+                }
+            }
+            
+            /*
+            _entities.Add(GameObjectFactory.FromObj("Data/girl/girl.obj", "Data/girl/girl.mtl",
+                "Data/girl/Textures", new Vector4(0, 3, 0, 1), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f)));
+                */
+            
             SetupPerspective();
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -101,7 +108,7 @@ namespace OpenGLPrimitives
 
             ProcessKeyboard();
 
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(Color.CornflowerBlue);
             GL.Enable(EnableCap.DepthTest);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -127,6 +134,8 @@ namespace OpenGLPrimitives
             DrawAxes();
 
             SwapBuffers();
+
+            Title = $"FPS: {1f / e.Time}";
         }
 
         private void ProcessKeyboard()
@@ -134,7 +143,7 @@ namespace OpenGLPrimitives
             if (!Focused)
                 return;
 
-            var sensivity = 0.05f;
+            var sensivity = 0.1f;
             var kboardState = Keyboard.GetState();
 
             if (kboardState.IsKeyDown(Key.W))

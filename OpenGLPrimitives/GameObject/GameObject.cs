@@ -19,11 +19,7 @@ namespace OpenGLPrimitives
 
         public override void Render(ICamera camera, LightSource light, Shader shader)
         {
-            var modelMatrix = CreateModelMatrix();
-            shader.SetMat4("model", modelMatrix);
-            shader.SetMat4("view", camera.LookAtMatrix);
-            shader.SetVec4("lightPos", light.Position);
-            shader.SetVec4("lightColor", Vector4.One);
+            base.Render(camera, light, shader);
             foreach (var polygon in Entity.Polygons)
             {
                 polygon.Bind();

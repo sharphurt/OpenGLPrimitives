@@ -16,7 +16,7 @@ namespace OpenGLPrimitives.Primitives
 
         public Polygon[] Polygons
         {
-            get => _polygons ?? (_polygons = Faces.Select(f => new Polygon(f, f.Normal, PrimitiveType)).ToArray());
+            get => _polygons ?? (_polygons = Faces.Select(f => new Polygon(f, PrimitiveType)).ToArray());
             protected set => _polygons = value;
         }
     }

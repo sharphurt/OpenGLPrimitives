@@ -1,32 +1,34 @@
 ﻿using System;
-using System.Linq;
-using OpenTK;
+using System.Drawing;
+using OpenGLPrimitives.Camera;
+using OpenGLPrimitives.Maintenance;
 using OpenTK.Graphics.OpenGL;
 using Buffer = System.Buffer;
+using TextureUnit = OpenTK.Graphics.OpenGL4.TextureUnit;
 
 namespace OpenGLPrimitives.Geometry
 {
-    public class Polygon : IDisposable
+    public class Mesh : IDisposable
     {
-        public readonly Vertex[] Vertices;
+        public Polygon[] Polygons { get; }
+        
+        public Vertex[] Vertices { get; }
+        
+        public Texture Texture { get; }
 
-        private readonly PrimitiveType _primitiveType;
+        private PrimitiveType _primitiveType;
 
         private int VertexArray { get; set; }
         private int Buffer { get; set; }
-        
-        public Polygon(Face face, PrimitiveType primitiveType)
-        {
-            _primitiveType = primitiveType;
-            Vertices = face.Vertices.Select(v => new Vertex(v, face.Normal)).ToArray();
-            InitializeBuffers();
-        }
 
-        public Polygon(Vertex[] vertices, PrimitiveType primitiveType = PrimitiveType.Polygon)
+        public Mesh(Vertex[] vertices, Polygon[] polygons, string texturePath)
         {
-            _primitiveType = primitiveType;
             Vertices = vertices;
+            Polygons = polygons;
+            Texture = Texture.LoadFromFile(texturePath);
             InitializeBuffers();
+            _primitiveType = GetPrimitiveType(Polygons[0]);
+
         }
 
         private void InitializeBuffers()
@@ -49,7 +51,7 @@ namespace OpenGLPrimitives.Geometry
 
             GL.VertexArrayAttribBinding(VertexArray, 2, 0);
             GL.EnableVertexArrayAttrib(VertexArray, 2);
-            GL.VertexArrayAttribFormat(VertexArray, 2, 4, VertexAttribType.Float, false, 32);
+            GL.VertexArrayAttribFormat(VertexArray, 2, 2, VertexAttribType.Float, false, 32);
 
             GL.VertexArrayVertexBuffer(VertexArray, 0, Buffer, IntPtr.Zero, Vertex.Size);
 
@@ -57,16 +59,32 @@ namespace OpenGLPrimitives.Geometry
             GL.BindBuffer(BufferTarget.ArrayBuffer, Buffer);
         }
 
+        
+
         public void Bind()
         {
             GL.BindVertexArray(VertexArray);
+            Texture.Use(TextureUnit.Texture0);
         }
-
-        public void Render()
+        
+        private PrimitiveType GetPrimitiveType(Polygon polygon)
         {
+            switch (polygon.Vertices.Length)
+            {
+                case 1: return PrimitiveType.Points;
+                case 2: return PrimitiveType.Points;
+                case 3: return PrimitiveType.Triangles;
+                case 4: return PrimitiveType.Quads;
+                default: return PrimitiveType.Polygon;
+            }
+        }
+        
+        public void Render(ICamera camera, LightSource light, Shader shader)
+        {
+            Bind();
             GL.DrawArrays(_primitiveType, 0, Vertices.Length);
         }
-
+        
         public void Dispose()
         {
         }

@@ -28,6 +28,13 @@ namespace OpenGLPrimitives
             return s * r1 * r2 * r3 * t2;
         }
 
-        public abstract void Render(ICamera camera, LightSource light, Shader shader);
+        public virtual void Render(ICamera camera, LightSource light, Shader shader)
+        {
+            var modelMatrix = CreateModelMatrix();
+            shader.SetMat4("model", modelMatrix);
+            shader.SetMat4("view", camera.LookAtMatrix);
+            shader.SetVec4("lightPos", light.Position);
+            shader.SetVec4("lightColor", Vector4.One);
+        }
     }
 }
