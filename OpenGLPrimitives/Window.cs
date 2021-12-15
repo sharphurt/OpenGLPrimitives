@@ -12,7 +12,7 @@ namespace OpenGLPrimitives
 {
     public class Window : GameWindow
     {
-        private List<GameObject> _entities;
+        private List<Object> _entities;
 
         private readonly ICamera _camera = new FirstPersonCamera();
 
@@ -36,17 +36,25 @@ namespace OpenGLPrimitives
             _shader = new Shader("Shaders/ThreeD/vertexShader.glsl", "Shaders/ThreeD/fragmentShader.glsl");
             _light = new LightSource(new Vector4(0, 3, -4, 1), new Vector4(1, 1, 1, 1));
 
-            _entities = new List<GameObject>
+            _entities = new List<Object>
             {
-                GameObjectFactory.CreateTetrahedron(new Vector4(0, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
-                GameObjectFactory.CreateCube(new Vector4(3, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
-                GameObjectFactory.CreateOctahedron(new Vector4(6, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
-                GameObjectFactory.CreateDodecahedron(new Vector4(9, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
-                GameObjectFactory.CreateIcosahedron(new Vector4(12, 0, 0, 1), new Vector3(0, 0, 0), new Vector3(1, 1, 1)),
+                /*GameObjectFactory.CreatePyramid(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTetrahedron(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateOctahedron(new Vector4(21, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateDodecahedron(new Vector4(24, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateIcosahedron(new Vector4(27, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCylinder(new Vector4(30, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateConus(new Vector4(33, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),*/
+                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One)
             };
 
             SetupPerspective();
-
             MouseDown += ProcessMouse;
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -179,15 +187,14 @@ namespace OpenGLPrimitives
 
             _camera.MoveSpeed = Keyboard.GetState().IsKeyDown(Key.ShiftLeft) ? 0.05f : 0.1f;
 
-
             Vector2 delta = _lastMousePos - new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             _lastMousePos += delta;
-            
+
             _camera.AddRotation(delta.X, delta.Y);
-            
+
             if (Focused)
                 Mouse.SetPosition(Width / 2f, Height / 2f);
-            
+
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
         }
 

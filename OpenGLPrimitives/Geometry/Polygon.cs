@@ -60,7 +60,6 @@ namespace OpenGLPrimitives.Geometry
 
         public void Render()
         {
-            // GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             GL.DrawArrays(_primitiveType, 0, Vertices.Length);
         }
 

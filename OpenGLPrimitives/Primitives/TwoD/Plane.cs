@@ -1,20 +1,25 @@
-﻿using OpenTK;
+﻿using System.Linq;
+using OpenGLPrimitives.Geometry;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace OpenGLPrimitives.Primitives.TwoD
 {
     public class Plane : Entity
     {
+        private readonly Vector4[] _points =
+        {
+            new Vector4(-0.5f, -0.5f, 0, 1),
+            new Vector4(-0.5f, 0.5f, 0, 1),
+            new Vector4(0.5f, 0.5f, 0, 1),
+            new Vector4(0.5f, -0.5f, 0, 1),
+        };
+
+        private readonly int[] _indices = {0, 1, 2, 3};
+
         public Plane()
         {
-            /*Vertices = new[]
-            {
-                new Vertex(new Vector4(-0.5f, -0.5f, 0, 1), Vector4.UnitX),
-                new Vertex(new Vector4(-0.5f, 0.5f, 0, 1), Vector4.UnitX),
-                new Vertex(new Vector4(0.5f, 0.5f, 0, 1), Vector4.UnitX),
-                new Vertex(new Vector4(0.5f, -0.5f, 0, 1), Vector4.UnitX),
-            };
-            DrawMethod = PrimitiveType.Quads;*/
+            Faces = new[] {new Face(_indices.Select(i => _points[i]).ToArray()),};
         }
     }
 }

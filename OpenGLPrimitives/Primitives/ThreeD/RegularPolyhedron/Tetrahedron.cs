@@ -26,7 +26,7 @@ namespace OpenGLPrimitives.Primitives.ThreeD.RegularPolyhedron
 
         public Tetrahedron()
         {
-            Faces = _indices.Select(f => new Face(f.Select(i => _points[i]).ToArray())).ToArray();
+            Faces = _indices.Select(f => new Face(f.Select(i => _points[i] * 0.5f).ToArray())).ToArray();
         }
     }
 }

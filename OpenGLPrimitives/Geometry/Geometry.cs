@@ -113,7 +113,7 @@ namespace OpenGLPrimitives.Geometry
             new Vector4((float) (Math.Cos(u) * Math.Sin(v) * r),
                 (float) (Math.Cos(v) * r),
                 (float) (Math.Sin(u) * Math.Sin(v) * r), 1);
-        
+
 
         public static Face[] CreateTorus(int numc, int numt)
         {
@@ -143,7 +143,76 @@ namespace OpenGLPrimitives.Geometry
             return faces.ToArray();
         }
 
-        
-        
+        public static Face[] CreateCircle(float radius, float zValue, bool reverseOrder)
+        {
+            var angle = 0f;
+            var angle_stepsize = 0.1f;
+            var vertices = new List<Vector4>();
+            while (angle < 2 * Math.PI)
+            {
+                var x = (float) (radius * Math.Cos(angle));
+                var y = (float) (radius * Math.Sin(angle));
+                vertices.Add(new Vector4(x, y, zValue, 1));
+                angle += angle_stepsize;
+            }
+
+            vertices.Add(new Vector4(radius, 0, zValue, 1));
+            return new[] {new Face(reverseOrder ? vertices.ToArray().Reverse().ToArray() : vertices.ToArray())};
+        }
+
+        public static Face[] CreateCylinder(float radius1, float radius2, float height)
+        {
+            const float angleStepsize = 0.1f;
+
+            var faces = new List<Face>();
+
+            var angle = 0f;
+            while (angle < 2 * Math.PI)
+            {
+                var x1 = (float) (Math.Cos(angle));
+                var y1 = (float) (Math.Sin(angle));
+                var x2 = (float) (Math.Cos(angle + angleStepsize));
+                var y2 = (float) (Math.Sin(angle + angleStepsize));
+
+                var face = new Face(
+                    new Vector4(x2 * radius1, y2 * radius1, 0, 1),
+                    new Vector4(x2 * radius2, y2 * radius2, height, 1),
+                    new Vector4(x1 * radius2, y1 * radius2, height, 1),
+                    new Vector4(x1 * radius1, y1 * radius1, 0, 1));
+
+                faces.Add(face);
+                angle += angleStepsize;
+            }
+
+            faces.AddRange(new[]
+            {
+                CreateCircle(radius1, 0, true).First(),
+                CreateCircle(radius2, height, false).First()
+            });
+
+            return faces.ToArray();
+        }
+
+        public static Face CreateRegularPolygon(float radius, int verticesCount)
+        {
+            var tempX = -radius / 2;
+            var tempY = -radius / 2;
+
+            var originX = radius / 2;
+            var originY = radius / 2;
+
+            var points = new List<Vector4>();
+
+            for (var i = 0; i < verticesCount; i++)
+            {
+                var angle = 360 / verticesCount * i * 0.0174533;
+                var rX = (float) (originX + tempX * Math.Cos(angle) - tempY * Math.Sin(angle));
+                var rY = (float) (originY + tempX * Math.Sin(angle) + tempY * Math.Cos(angle));
+
+                points.Add(new Vector4(rX, rY, 0, 1));
+            }
+
+            return new Face(points.ToArray());
+        }
     }
 }
