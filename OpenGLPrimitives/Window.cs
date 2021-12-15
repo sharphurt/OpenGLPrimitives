@@ -21,37 +21,43 @@ namespace OpenGLPrimitives
         private Shader _shader;
 
         private LightSource _light;
-        
-        public Window() : base(1280, 720, OpenTK.Graphics.GraphicsMode.Default, "OpenGL Primitives")
+
+        public Window() : base(1280, 720, OpenTK.Graphics.GraphicsMode.Default,
+            "OpenGL Primitives | Ctrl + H: Open About Window")
         {
             VSync = VSyncMode.On;
+            WindowState = WindowState.Maximized;
+            var about = new AboutWindow();
+            about.Show();
+            about.Focus();
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            _shader = new Shader("Shaders/ThreeD/vertexShader.glsl", "Shaders/ThreeD/fragmentShader.glsl");
-            _light = new LightSource(new Vector4(0, 3, -4, 1), new Vector4(1, 1, 1, 1));
+            _shader = new Shader("Shaders/vertexShader.glsl", "Shaders/fragmentShader.glsl");
+            _light = new LightSource(new Vector4(0, 3, 0, 1), new Vector4(1, 1, 1, 1));
 
             _entities = new List<Object>
             {
                 GameObjectFactory.CreatePyramid(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
-                /*GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateTetrahedron(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateOctahedron(new Vector4(21, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateDodecahedron(new Vector4(24, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateIcosahedron(new Vector4(27, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCylinder(new Vector4(30, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateConus(new Vector4(33, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),
-                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One)*/
+                /* GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateTetrahedron(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateOctahedron(new Vector4(21, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateDodecahedron(new Vector4(24, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateIcosahedron(new Vector4(27, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateCylinder(new Vector4(30, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateConus(new Vector4(33, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                 GameObjectFactory.CreateRegularPolygon(5, new Vector4(-6, 0, 0, 1), Vector3.Zero, Vector3.One),*/
             };
-
+            
             SetupPerspective();
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -125,58 +131,64 @@ namespace OpenGLPrimitives
                 return;
 
             var sensivity = 0.05f;
+            var kboardState = Keyboard.GetState();
 
-            if (Keyboard.GetState().IsKeyDown(Key.W))
+            if (kboardState.IsKeyDown(Key.W))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position += Vector4.UnitZ * sensivity;
                 else
                     _camera.Move(0f, 1, 0f);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.S))
+            if (kboardState.IsKeyDown(Key.S))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position -= Vector4.UnitZ * sensivity;
                 else
                     _camera.Move(0f, -1, 0f);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.A))
+            if (kboardState.IsKeyDown(Key.A))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position += Vector4.UnitX * sensivity;
                 else
                     _camera.Move(-1, 0f, 0f);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.D))
+            if (kboardState.IsKeyDown(Key.D))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position -= Vector4.UnitX * sensivity;
                 else
                     _camera.Move(1, 0f, 0f);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.Space))
+            if (kboardState.IsKeyDown(Key.Space))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position += Vector4.UnitY * sensivity;
                 else
                     _camera.Move(0f, 0f, 1);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
+            if (kboardState.IsKeyDown(Key.ShiftLeft))
             {
-                if (Keyboard.GetState().IsKeyDown(Key.LControl))
+                if (kboardState.IsKeyDown(Key.LControl))
                     _light.Position -= Vector4.UnitY * sensivity;
                 else
                     _camera.Move(0f, 0f, -1);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.Escape)) Exit();
+            if ((kboardState.IsKeyDown(Key.ControlLeft) || kboardState.IsKeyDown(Key.ControlRight))
+                && kboardState.IsKeyDown(Key.H))
+                new AboutWindow().Show();
 
-            _camera.MoveSpeed = Keyboard.GetState().IsKeyDown(Key.ShiftLeft) ? 0.05f : 0.1f;
+            if (kboardState.IsKeyDown(Key.Escape))
+                Exit();
+
+            _camera.MoveSpeed = kboardState.IsKeyDown(Key.ShiftLeft) ? 0.05f : 0.1f;
 
             Vector2 delta = _lastMousePos - new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             _lastMousePos += delta;
@@ -184,7 +196,10 @@ namespace OpenGLPrimitives
             _camera.AddRotation(delta.X, delta.Y);
 
             if (Focused)
+            {
                 Mouse.SetPosition(Width / 2f, Height / 2f);
+                CursorVisible = false;
+            }
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
         }

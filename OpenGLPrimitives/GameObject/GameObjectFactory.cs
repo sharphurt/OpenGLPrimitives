@@ -68,7 +68,7 @@ namespace OpenGLPrimitives
         public static GameObject CreateRegularPolygon(int verticesCount, Vector4 pos, Vector3 rot, Vector3 scale) =>
             new GameObject(new RegularPolygon(verticesCount), pos, rot, scale);
 
-        public static GameObject CreateRegularPolygon(Vector4[] vertices, Vector4 pos, Vector3 rot, Vector3 scale) =>
+        public static GameObject CreatePolygon(Vector4[] vertices, Vector4 pos, Vector3 rot, Vector3 scale) =>
             new GameObject(new SimplePolygon(vertices), pos, rot, scale);
         
         public static GameObject CreateCircle(Vector4 pos, Vector3 rot, Vector3 scale) =>
