@@ -23,10 +23,10 @@ namespace OpenGLPrimitives.Geometry
                     var un = (i + 1 == UResolution) ? (float) Math.PI * 2 : (i + 1) * stepU;
                     var vn = (j + 1 == VResolution) ? (float) Math.PI : (j + 1) * stepV;
 
-                    var p0 = Sphere(u, v, 1);
-                    var p1 = Sphere(u, vn, 1);
-                    var p2 = Sphere(un, v, 1);
-                    var p3 = Sphere(un, vn, 1);
+                    var p0 = Sphere(u, v, 0.75f);
+                    var p1 = Sphere(u, vn, 0.75f);
+                    var p2 = Sphere(un, v, 0.75f);
+                    var p3 = Sphere(un, vn, 0.75f);
 
                     faces.Add(new Face(p0, p2, p1));
                     faces.Add(new Face(p3, p1, p2));
@@ -60,7 +60,7 @@ namespace OpenGLPrimitives.Geometry
                         var x = (float) ((0.5 + .1 * Math.Cos(s * twopi / numc)) * Math.Cos(t * twopi / numt));
                         var y = (float) ((0.5 + .1 * Math.Cos(s * twopi / numc)) * Math.Sin(t * twopi / numt));
                         var z = (float) (.1 * Math.Sin(s * twopi / numc));
-                        vertices.Add(new Vector4(x, z, y, 1));
+                        vertices.Add(new Vector4(x, y, z, 1));
                     }
                 }
 

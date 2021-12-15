@@ -18,7 +18,7 @@ namespace OpenGLPrimitives.Primitives.TwoD
 
         public Trapezoid()
         {
-            Faces = new[] { new Face(_indices.Select(i => _points[i]).ToArray()) };
+            Faces = new[] {new Face(_indices.Select(i => _points[i] * new Vector4(2, 2, 2, 1)).ToArray())};
         }
     }
 }

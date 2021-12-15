@@ -4,6 +4,7 @@ using OpenGLPrimitives.Primitives;
 using OpenGLPrimitives.Primitives.ThreeD;
 using OpenGLPrimitives.Primitives.ThreeD.RegularPolyhedron;
 using OpenGLPrimitives.Primitives.TwoD;
+using OpenGLPrimitives.Utils;
 using OpenTK;
 
 namespace OpenGLPrimitives
@@ -41,10 +42,10 @@ namespace OpenGLPrimitives
             new GameObject(new Icosahedron(), pos, rot, scale);
 
         public static GameObject CreateCylinder(Vector4 pos, Vector3 rot, Vector3 scale) =>
-            new GameObject(new Cylinder(0.5f, 0.5f, 1), pos, rot, scale);
+            new GameObject(new Cylinder(0.5f, 0.5f, 1), pos, rot + VectorUtils.CreateRotationVector(-90,0,0), scale);
 
         public static GameObject CreateConus(Vector4 pos, Vector3 rot, Vector3 scale) =>
-            new GameObject(new Cylinder(0.5f, 0.001f, 1), pos, rot, scale);
+            new GameObject(new Cylinder(0.5f, 0.001f, 1), pos, rot + VectorUtils.CreateRotationVector(-90,0,0), scale);
 
         public static ComplexGameObject CreateSpiral(Vector4 pos, Vector3 rot, Vector3 scale)
         {

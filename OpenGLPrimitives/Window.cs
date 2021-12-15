@@ -41,27 +41,26 @@ namespace OpenGLPrimitives
 
             _entities = new List<Object>
             {
-                GameObjectFactory.CreatePyramid(new Vector4(0, 0, 0, 1), VectorUtils.CreateRotationVector(45, 0, 45),
-                    new Vector3(2, 1, 0.5f)),
-
-                GameObjectFactory.CreateDodecahedron(new Vector4(2, -2, 2, 1),
-                    VectorUtils.CreateRotationVector(90, 30, 45), new Vector3(0.5f, 3, 1)),
-                
-                /* GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateTetrahedron(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateOctahedron(new Vector4(21, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateDodecahedron(new Vector4(24, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateIcosahedron(new Vector4(27, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateCylinder(new Vector4(30, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateConus(new Vector4(33, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateSpiral(new Vector4(36, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One),
-                 GameObjectFactory.CreateRegularPolygon(5, new Vector4(-6, 0, 0, 1), Vector3.Zero, Vector3.One),*/
+                GameObjectFactory.CreatePlane(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTrapezoid(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCube(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTorus(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateSphere(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateTetrahedron(new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateOctahedron(new Vector4(3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateDodecahedron(new Vector4(6, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateIcosahedron(new Vector4(9, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCylinder(new Vector4(12, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateConus(new Vector4(15, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateSpiral(new Vector4(18, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateCircle(new Vector4(-3, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreateRegularPolygon(5, new Vector4(-6, 0, 0, 1), Vector3.Zero, Vector3.One),
+                GameObjectFactory.CreatePyramid(new Vector4(-9, 0, 0, 1), Vector3.Zero, Vector3.One)
             };
+
+            var polygonVertices = new[] {new Vector4(2, -3, 1, 1), new Vector4(-3, 2, -2, 1), new Vector4(1, 1, 1, 1)};
+            _entities.Add(GameObjectFactory.CreatePolygon(polygonVertices, new Vector4(-12, 0, 0, 1), Vector3.Zero,
+                Vector3.One));
 
             SetupPerspective();
 
