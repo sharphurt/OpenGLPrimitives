@@ -23,7 +23,6 @@ namespace OpenGLPrimitives
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -161,7 +160,5 @@ namespace OpenGLPrimitives
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-
-        #endregion
     }
 }

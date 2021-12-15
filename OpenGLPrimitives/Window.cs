@@ -28,8 +28,7 @@ namespace OpenGLPrimitives
             VSync = VSyncMode.On;
             WindowState = WindowState.Maximized;
             var about = new AboutWindow();
-            about.Show();
-            about.Focus();
+            about.ShowDialog();
         }
 
         protected override void OnLoad(EventArgs e)
