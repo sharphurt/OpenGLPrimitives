@@ -6,13 +6,7 @@ namespace OpenGLPrimitives.Utils
 {
     public static class VectorUtils
     {
-        public static Vector4 MiddlePoint(Vector4 vec1, Vector4 vec2) => (vec1 + vec2) / 2;
-
-        public static Vertex[] FacesToVertices(Face[] faces, int normalDirection)
-        {
-            return faces.Select(f => f.Vertices.Select(v => new Vertex(v, new Vector4(f.Normal))))
-                .SelectMany(f => f)
-                .ToArray();
-        }
+        public static Vector3 CreateRotationVector(float angleX, float angleY, float angleZ) =>
+            new Vector3(MathHelper.DegreesToRadians(angleX), MathHelper.DegreesToRadians(angleY), MathHelper.DegreesToRadians(angleZ));
     }
 }
