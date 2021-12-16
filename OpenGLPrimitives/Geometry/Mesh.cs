@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using OpenGLPrimitives.Camera;
 using OpenGLPrimitives.Maintenance;
 using OpenTK.Graphics.OpenGL;
@@ -25,7 +26,7 @@ namespace OpenGLPrimitives.Geometry
         {
             Vertices = vertices;
             Polygons = polygons;
-            Texture = Texture.LoadFromFile(texturePath);
+            Texture = !File.Exists(texturePath) ? Texture.CreateEmpty() : Texture.LoadFromFile(texturePath);
             InitializeBuffers();
             _primitiveType = GetPrimitiveType(Polygons[0]);
         }

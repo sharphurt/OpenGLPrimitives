@@ -1,6 +1,9 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using OpenGLPrimitives.Utils;
 using OpenTK.Graphics.OpenGL4;
+using SixLabors.ImageSharp.Processing;
+using Image = SixLabors.ImageSharp.Image;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace OpenGLPrimitives.Maintenance
@@ -35,9 +38,10 @@ namespace OpenGLPrimitives.Maintenance
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            
+
             return new Texture(handle);
         }
+
 
         public static Texture LoadFromFile(string path)
         {
@@ -45,10 +49,10 @@ namespace OpenGLPrimitives.Maintenance
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, handle);
-            using (var image = new Bitmap(path))
+            using (var image = Image.Load(path))
             {
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                var data = image.LockBits(
+                image.Mutate(x => x.Flip(FlipMode.Vertical));
+                var data = image.ToBitmap().LockBits(
                     new Rectangle(0, 0, image.Width, image.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);

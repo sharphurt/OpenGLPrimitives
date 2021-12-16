@@ -11,24 +11,22 @@ namespace OpenGLPrimitives.Parser
 {
     public static class ObjParser
     {
-        public static List<Mesh> Parse(string objPath, string mtlPath, string texturesFolder)
+        public static List<Mesh> Parse(List<string> obj, List<string> mtl, string texturesFolder)
         {
-            var (name, data) = ReadFile(objPath);
-            var points = ParseVectors3(data, "v ");
-            var normals = ParseVectors3(data, "vn ");
-            var textureCoodinates = ParseVectors2(data, "vt ");
+            var points = ParseVectors3(obj, "v ");
+            var normals = ParseVectors3(obj, "vn ");
+            var textureCoodinates = ParseVectors2(obj, "vt ");
 
-            var mtls = MtlParser.ParseMtl(mtlPath);
+            var mtls = MtlParser.ParseMtl(mtl);
             var meshes = new List<Mesh>();
 
-
             var lineIndex = 0;
-            while (lineIndex < data.Count)
+            while (lineIndex < obj.Count)
             {
-                if (data[lineIndex].StartsWith("usemtl"))
+                if (obj[lineIndex].StartsWith("usemtl"))
                 {
-                    var currentMtl = mtls.Find(mtlData => mtlData.Name == data[lineIndex].Split(' ')[1]);
-                    var faceLines = GetMtlFaces(data, lineIndex);
+                    var currentMtl = mtls.Find(mtlData => mtlData.Name == obj[lineIndex].Split(' ')[1]);
+                    var faceLines = GetMtlFaces(obj, lineIndex);
                     var faces = ParseFaces(faceLines);
                     var (vertices, polygons) = CombinePolygons(points, normals, textureCoodinates, faces);
                     meshes.Add(new Mesh(vertices.ToArray(), polygons.ToArray(),
@@ -42,12 +40,11 @@ namespace OpenGLPrimitives.Parser
             return meshes;
         }
 
-        public static List<Mesh> Parse(string objPath)
+        public static List<Mesh> Parse(List<string> objData)
         {
-            var (name, data) = ReadFile(objPath);
-            var points = ParseVectors3(data, "v ");
-            var normals = ParseVectors3(data, "vn ");
-            var faces = ParseFaces(data);
+            var points = ParseVectors3(objData, "v ");
+            var normals = ParseVectors3(objData, "vn ");
+            var faces = ParseFaces(objData);
 
             var (vertices, polygons) = CombinePolygons(points, normals, faces);
 
@@ -62,12 +59,6 @@ namespace OpenGLPrimitives.Parser
                 : data.GetRange(startIndex, nextMeshStart - startIndex);
         }
 
-        public static (string name, List<string> data) ReadFile(string path)
-        {
-            var name = Path.GetFileName(path);
-            var data = File.ReadAllLines(path).ToList();
-            return (name, data);
-        }
 
         private static List<List<(int, int, int)>> ParseFaces(IEnumerable<string> data) =>
             data.Where(l => l.StartsWith("f "))
@@ -99,14 +90,14 @@ namespace OpenGLPrimitives.Parser
         {
             var vertex = str.Split('/');
             if (vertex.Length == 1)
-                return (int.Parse(vertex[0]), -1, -1);
+                return (int.Parse(vertex[0]), 0, 0);
 
-            var textureIndex = -1;
-            var normalIndex = -1;
+            var textureIndex = 0;
+            var normalIndex = 0;
 
-            if (!string.IsNullOrEmpty(vertex[1]))
+            if (vertex.Length > 1 && !string.IsNullOrEmpty(vertex[1]))
                 textureIndex = int.Parse(vertex[1]);
-            if (!string.IsNullOrEmpty(vertex[2]))
+            if (vertex.Length > 2 && !string.IsNullOrEmpty(vertex[2]))
                 normalIndex = int.Parse(vertex[2]);
 
             return (int.Parse(vertex[0]), normalIndex, textureIndex);
@@ -119,8 +110,8 @@ namespace OpenGLPrimitives.Parser
             foreach (var v in faceIndexes.Select(faceIndex => faceIndex.Select(i =>
             {
                 Vertex vertex = new Vertex(points[i.point - 1]);
-                vertex.Normal = i.normal != -1 ? normals[i.normal - 1] : vertex.Position.Normalized();
-                
+                vertex.Normal = i.normal != 0 ? normals[i.normal - 1] : vertex.Position.Normalized();
+
                 return vertex;
             }).ToList()))
             {
@@ -138,12 +129,24 @@ namespace OpenGLPrimitives.Parser
             var result = (new List<Vertex>(), new List<Polygon>());
             foreach (var v in faceIndexes.Select(faceIndex => faceIndex.Select(i =>
             {
-                Vertex vertex = new Vertex(points[i.point - 1]);
-                if (i.texture != -1)
-                    vertex.TextureCoordinate = textures[i.texture - 1];
-                
-                vertex.Normal = i.normal != -1 ? normals[i.normal - 1] : vertex.Position.Normalized();
-                
+                var point = i.point < 0 ? points.Count + i.point : i.point - 1;
+
+                Vertex vertex = new Vertex(points[point]);
+
+                if (i.texture != 0)
+                {
+                    var texture = i.texture < 0 ? textures.Count + i.texture : i.texture - 1;
+                    vertex.TextureCoordinate = textures[texture];
+                }
+
+                if (i.normal != 0)
+                {
+                    var normal = i.normal < 0 ? normals.Count + i.normal : i.normal - 1;
+                    vertex.Normal = normals[normal];
+                }
+                else
+                    vertex.Normal = vertex.Position.Normalized();
+
                 return vertex;
             }).ToList()))
             {
@@ -157,22 +160,20 @@ namespace OpenGLPrimitives.Parser
 
     public static class MtlParser
     {
-        public static List<MtlData> ParseMtl(string path)
+        public static List<MtlData> ParseMtl(List<string> data)
         {
-            var (filename, data) = ObjParser.ReadFile(path);
-
             var mtls = new List<MtlData>();
 
             string currentName = "";
-            foreach (var l in data.Where(l => l.StartsWith("newmtl") || l.StartsWith("map_Kd")))
+            foreach (var l in data.Where(l => l.Contains("newmtl") || l.Contains("map_Kd")))
             {
-                if (l.StartsWith("newmtl"))
+                if (l.Contains("newmtl"))
                 {
                     currentName = l.Split(' ')[1];
                     continue;
                 }
 
-                if (l.StartsWith("map_Kd"))
+                if (l.Contains("map_Kd"))
                 {
                     var currentTexturePath = l.Split(' ')[1];
                     mtls.Add(new MtlData(currentName, currentTexturePath));

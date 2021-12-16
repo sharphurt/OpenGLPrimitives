@@ -66,10 +66,15 @@ namespace OpenGLPrimitives
         {
             GL.UseProgram(0);
         }
-        
-        public void SetVec4(string name, Vector4 vector3)
+
+        public void SetVec3(string name, Vector3 vector3)
         {
-            GL.Uniform4(GL.GetUniformLocation(Handle, name), vector3);
+            GL.Uniform3(GL.GetUniformLocation(Handle, name), vector3);
+        }
+
+        public void SetVec4(string name, Vector4 vector4)
+        {
+            GL.Uniform4(GL.GetUniformLocation(Handle, name), vector4);
         }
 
         public void SetMat4(string name, Matrix4 matrix4)
@@ -83,7 +88,12 @@ namespace OpenGLPrimitives
             };
             GL.UniformMatrix4(GL.GetUniformLocation(Handle, name), 1, false, m);
         }
-
+        
+        public void SetInt(string name, int value)
+        {
+            GL.Uniform1(GL.GetUniformLocation(Handle, name), value);
+        }
+        
         public void SetFloat(string name, float value)
         {
             GL.Uniform1(GL.GetUniformLocation(Handle, name), value);
@@ -103,7 +113,7 @@ namespace OpenGLPrimitives
 
         ~Shader()
         {
-            GL.DeleteProgram(Handle);
+      //      GL.DeleteProgram(Handle);
         }
 
         public void Dispose()

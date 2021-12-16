@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenGLPrimitives.Camera;
 using OpenGLPrimitives.Geometry;
 using OpenTK;
@@ -24,6 +25,13 @@ namespace OpenGLPrimitives
                 mesh.Bind();
                 mesh.Render();
             }
+        }
+
+        public ObjGameObject Copy()
+        {
+            var meshes = new Mesh[Meshes.Count];
+            Meshes.CopyTo(meshes);
+            return new ObjGameObject(meshes.ToList(), Position, Rotation, Scale);
         }
     }
 }

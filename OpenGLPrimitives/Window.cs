@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using OpenGLPrimitives.Camera;
-using OpenGLPrimitives.Parser;
-using OpenGLPrimitives.Primitives.ThreeD;
-using OpenGLPrimitives.Primitives.TwoD;
-using OpenGLPrimitives.Utils;
+using OpenGLPrimitives.Maintenance;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -15,7 +11,7 @@ namespace OpenGLPrimitives
 {
     public class Window : GameWindow
     {
-        private List<Object> _entities;
+        private List<Object> _entities = new List<Object>();
 
         private readonly ICamera _camera = new FirstPersonCamera();
 
@@ -43,35 +39,26 @@ namespace OpenGLPrimitives
             _shader = new Shader("Shaders/vertexShader.glsl", "Shaders/fragmentShader.glsl");
             _light = new LightSource(new Vector4(1, 1, 1, 1), new Vector4(1, 1, 1, 1));
 
-            _entities = new List<Object>
-            {
-                /*GameObjectFactory.FromObj("Data/cube.obj", "Data/cube.mtl", new Vector4(0, 0, 0, 1), Vector3.Zero,
-                    Vector3.One)*/
-            };
 
+            var cube = GameObjectFactory.FromObj(
+                @"C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\Assets\Minecraft",
+                new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One);
 
-            /*
             for (var x = -10; x < 10; x++)
             {
                 for (int z = 0; z < 20; z++)
                 {
-                    var y = (int) Math.Round(Math.Cos((x + z) * 0.2) * 2);
-
-                    var obj = GameObjectFactory.FromObj("Data/cube.obj", "Data/cube.mtl", "Data/Textures",
-                        new Vector4(x, y, z, 1), Vector3.Zero, Vector3.One);
-
-                    _entities.Add(obj);
+                    var y = (int) Math.Round(Math.Cos((x + z) * 0.15) * 2);
+                    var c = cube.Copy();
+                    c.Position = new Vector4(x, y, z, 1);
+                    _entities.Add(c);
                 }
             }
-            */
-
-
-            _entities.Add(GameObjectFactory.FromObj("Data/girl/girl.obj", "Data/girl/girl.mtl",
-                "Data/girl/Textures", new Vector4(0, 3, 0, 1), Vector3.Zero, new Vector3(0.05f, 0.05f, 0.05f)));
-
-            _entities.Add(GameObjectFactory.FromObj("Data/teapot.obj", new Vector4(0, 0, 0, 1), Vector3.Zero,
-                Vector3.One));
-
+            
+            _entities.Add(GameObjectFactory.FromObj(
+                @"C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\Assets\girl",
+                new Vector4(1, 2.5f, 2, 1), Vector3.Zero, new Vector3(0.05f, 0.05f, 0.05f)));
+            
             SetupPerspective();
 
             _lastMousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -124,7 +111,6 @@ namespace OpenGLPrimitives
                 Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float) Width / Height, 0.1f, 100);
 
             _shader.Use();
-
             _light.Apply(_shader, true);
 
             foreach (var renderObject in _entities)
@@ -134,8 +120,8 @@ namespace OpenGLPrimitives
             }
 
             _shader.Disable();
-            DrawAxes();
 
+            DrawAxes();
             SwapBuffers();
 
             Title = $"FPS: {1f / e.Time}";

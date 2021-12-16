@@ -6,7 +6,7 @@ namespace OpenGLPrimitives
 {
     public abstract class Object
     {
-        public Vector4 Position { get; }
+        public Vector4 Position { get; set; }
         public Vector3 Rotation { get; }
         public Vector3 Scale { get; }
 
