@@ -39,7 +39,7 @@ namespace OpenGLPrimitives
             _shader = new Shader("Shaders/vertexShader.glsl", "Shaders/fragmentShader.glsl");
             _light = new LightSource(new Vector4(1, 1, 1, 1), new Vector4(1, 1, 1, 1));
 
-
+            // в папке Assets проекта эти файлы также есть
             var cube = GameObjectFactory.FromObj(
                 @"C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\Assets\Minecraft",
                 new Vector4(0, 0, 0, 1), Vector3.Zero, Vector3.One);
@@ -54,7 +54,8 @@ namespace OpenGLPrimitives
                     _entities.Add(c);
                 }
             }
-            
+           
+            // в папке Assets проекта эти файлы также есть
             _entities.Add(GameObjectFactory.FromObj(
                 @"C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\Assets\girl",
                 new Vector4(1, 2.5f, 2, 1), Vector3.Zero, new Vector3(0.05f, 0.05f, 0.05f)));
@@ -121,7 +122,7 @@ namespace OpenGLPrimitives
 
             _shader.Disable();
 
-            DrawAxes();
+           // DrawAxes();
             SwapBuffers();
 
             Title = $"FPS: {1f / e.Time}";
