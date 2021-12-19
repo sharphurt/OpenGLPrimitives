@@ -6,22 +6,16 @@ using Buffer = System.Buffer;
 
 namespace OpenGLPrimitives.Geometry
 {
-    public class Polygon : IDisposable
+    public class Polygon
     {
-        public Vertex[] Vertices;
-
-        private PrimitiveType _primitiveType;
-
+        private readonly Vertex[] Vertices;
+        
         private int VertexArray { get; set; }
         private int Buffer { get; set; }
 
-        public Vector4 Normal { get; }
-
-        public Polygon(Face face, Vector4 normal, PrimitiveType primitiveType)
+        public Polygon(Vertex[] vertices)
         {
-            _primitiveType = primitiveType;
-            Vertices = face.Vertices.Select(v => new Vertex(v, normal.Normalized())).ToArray();
-            Normal = normal.Normalized();
+            Vertices = vertices;
             InitializeBuffers();
         }
 
@@ -37,15 +31,7 @@ namespace OpenGLPrimitives.Geometry
 
             GL.VertexArrayAttribBinding(VertexArray, 0, 0);
             GL.EnableVertexArrayAttrib(VertexArray, 0);
-            GL.VertexArrayAttribFormat(VertexArray, 0, 4, VertexAttribType.Float, false, 0);
-
-            GL.VertexArrayAttribBinding(VertexArray, 1, 0);
-            GL.EnableVertexArrayAttrib(VertexArray, 1);
-            GL.VertexArrayAttribFormat(VertexArray, 1, 4, VertexAttribType.Float, false, 16);
-
-            GL.VertexArrayAttribBinding(VertexArray, 2, 0);
-            GL.EnableVertexArrayAttrib(VertexArray, 2);
-            GL.VertexArrayAttribFormat(VertexArray, 2, 4, VertexAttribType.Float, false, 32);
+            GL.VertexArrayAttribFormat(VertexArray, 0, 2, VertexAttribType.Float, false, 0);
 
             GL.VertexArrayVertexBuffer(VertexArray, 0, Buffer, IntPtr.Zero, Vertex.Size);
 
@@ -53,18 +39,10 @@ namespace OpenGLPrimitives.Geometry
             GL.BindBuffer(BufferTarget.ArrayBuffer, Buffer);
         }
 
-        public void Bind()
-        {
-            GL.BindVertexArray(VertexArray);
-        }
-
         public void Render()
         {
-            GL.DrawArrays(_primitiveType, 0, Vertices.Length);
-        }
-
-        public void Dispose()
-        {
+            GL.BindVertexArray(VertexArray);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
         }
     }
 }

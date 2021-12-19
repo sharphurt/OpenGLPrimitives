@@ -7,21 +7,26 @@ namespace OpenGLPrimitives.Camera
     {
         public Matrix4 LookAtMatrix
         {
-            get => Matrix4.LookAt(Position, Position + LookAt, Vector3.UnitY);
+            get => Matrix4.LookAt(Position, Position + Direction, Vector3.UnitY);
         }
 
-        private Vector3 Position = new Vector3(1, 1, 1);
-        private Vector3 Orientation = new Vector3((float) Math.PI, 0f, -3f);
+        public Vector3 Position { get; private set; } = Vector3.One;
+        
+        private Vector3 Orientation = new Vector3((float) Math.PI, 0f, 1f);
+        
         public float MoveSpeed { get; set; }
+        
         private const float MouseSensitivity = 0.0025f;
 
-        private Vector3 LookAt => new Vector3
+        public Vector3 Up => Vector3.Cross(Direction, Vector3.Cross(Vector3.UnitY, Direction));
+
+        public Vector3 Direction => new Vector3
         {
             X = (float) (Math.Sin(Orientation.X) * Math.Cos(Orientation.Y)),
             Y = (float) Math.Sin(Orientation.Y),
             Z = (float) (Math.Cos(Orientation.X) * Math.Cos(Orientation.Y))
         };
-        
+
         public void Move(float x, float y, float z)
         {
             Vector3 offset = new Vector3();

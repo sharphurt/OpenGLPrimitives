@@ -10,6 +10,31 @@ namespace OpenGLPrimitives
     {
         public int Handle { get; }
 
+        public Shader(string fragmentPath)
+        {
+            string FragmentShaderSource;
+
+            using (StreamReader reader = new StreamReader(fragmentPath, Encoding.UTF8))
+            {
+                FragmentShaderSource = reader.ReadToEnd();
+            }
+
+            var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+            GL.ShaderSource(fragmentShader, FragmentShaderSource);
+            GL.CompileShader(fragmentShader);
+
+            string infoLogFrag = GL.GetShaderInfoLog(fragmentShader);
+
+            if (infoLogFrag != String.Empty)
+                throw new Exception(infoLogFrag);
+            Handle = GL.CreateProgram();
+
+            GL.AttachShader(Handle, fragmentShader);
+            GL.LinkProgram(Handle);
+            GL.DetachShader(Handle, fragmentShader);
+            GL.DeleteShader(fragmentShader);
+        }
+        
         public Shader(string vertexPath, string fragmentPath)
         {
             string VertexShaderSource;
@@ -67,6 +92,26 @@ namespace OpenGLPrimitives
             GL.UseProgram(0);
         }
         
+        public void SetInt(string name, int value)
+        {
+            GL.Uniform1(GL.GetUniformLocation(Handle, name), value);
+        }
+        
+        public void SetFloat(string name, float value)
+        {
+            GL.Uniform1(GL.GetUniformLocation(Handle, name), value);
+        }
+        
+        public void SetVec2(string name, Vector2 vector2)
+        {
+            GL.Uniform2(GL.GetUniformLocation(Handle, name), vector2);
+        }
+        
+        public void SetVec3(string name, Vector3 vector3)
+        {
+            GL.Uniform3(GL.GetUniformLocation(Handle, name), vector3);
+        }
+        
         public void SetVec4(string name, Vector4 vector3)
         {
             GL.Uniform4(GL.GetUniformLocation(Handle, name), vector3);
@@ -84,10 +129,7 @@ namespace OpenGLPrimitives
             GL.UniformMatrix4(GL.GetUniformLocation(Handle, name), 1, false, m);
         }
 
-        public void SetFloat(string name, float value)
-        {
-            GL.Uniform1(GL.GetUniformLocation(Handle, name), value);
-        }
+
 
         private bool disposedValue;
 
@@ -99,11 +141,6 @@ namespace OpenGLPrimitives
 
                 disposedValue = true;
             }
-        }
-
-        ~Shader()
-        {
-            GL.DeleteProgram(Handle);
         }
 
         public void Dispose()

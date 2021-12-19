@@ -17,3 +17,16 @@ C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Deb
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\vertexShader.glsl
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.AboutWindow.resources
 C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\obj\Debug\OpenGLPrimitives.csproj.GenerateResource.cache
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\postProcessing.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\rayTracing.glsl
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\SixLabors.ImageSharp.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Buffers.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Memory.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\SixLabors.ImageSharp.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Buffers.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Memory.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\sharphurt\Desktop\SeamCarving\OpenGLPrimitives\OpenGLPrimitives\bin\Debug\Shaders\rayTracing1.glsl

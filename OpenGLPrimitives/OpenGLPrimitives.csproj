@@ -11,6 +11,7 @@
         <AssemblyName>OpenGLPrimitives</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="mscorlib" />
         <Reference Include="OpenTK, Version=3.2.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
           <HintPath>..\packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
           <Private>True</Private>
@@ -40,21 +42,42 @@
           <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13">
+          <HintPath>..\packages\SixLabors.ImageSharp.1.0.4\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
+        <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Drawing" />
+        <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Windows.Forms" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Camera\FirstPersonCamera.cs" />
         <Compile Include="Camera\ICamera.cs" />
-        <Compile Include="GameObject\ComplexGameObject.cs" />
-        <Compile Include="GameObject\GameObject.cs" />
-        <Compile Include="GameObject\GameObjectFactory.cs" />
-        <Compile Include="Geometry\Face.cs" />
-        <Compile Include="Geometry\Geometry.cs" />
+        <Compile Include="Geometry\Light.cs" />
+        <Compile Include="Geometry\Plane.cs" />
+        <Compile Include="Geometry\Ray.cs" />
+        <Compile Include="Geometry\Sphere.cs" />
+        <Compile Include="Geometry\UniformBlock.cs" />
         <Compile Include="Geometry\Polygon.cs" />
         <Compile Include="Geometry\Vertex.cs" />
         <Compile Include="AboutWindow.cs">
@@ -63,30 +86,14 @@
         <Compile Include="AboutWindow.Designer.cs">
           <DependentUpon>AboutWindow.cs</DependentUpon>
         </Compile>
-        <Compile Include="Maintenance\LightSource.cs">
-          <DependentUpon>Maintenance.cs</DependentUpon>
-        </Compile>
         <Compile Include="Maintenance\Shader.cs">
           <DependentUpon>Maintenance.cs</DependentUpon>
         </Compile>
-        <Compile Include="Primitives\Entity.cs" />
-        <Compile Include="Primitives\Object.cs" />
-        <Compile Include="Primitives\ThreeD\Cylinder.cs" />
-        <Compile Include="Primitives\ThreeD\Pyramid.cs" />
-        <Compile Include="Primitives\ThreeD\RegularPolyhedron\Cube.cs" />
-        <Compile Include="Primitives\ThreeD\RegularPolyhedron\Dodecahedron.cs" />
-        <Compile Include="Primitives\ThreeD\RegularPolyhedron\Icosahedron.cs" />
-        <Compile Include="Primitives\ThreeD\RegularPolyhedron\Octahedron.cs" />
-        <Compile Include="Primitives\ThreeD\RegularPolyhedron\Tetrahedron.cs" />
-        <Compile Include="Primitives\ThreeD\Sphere.cs" />
-        <Compile Include="Primitives\ThreeD\Torus.cs" />
-        <Compile Include="Primitives\TwoD\Plane.cs" />
-        <Compile Include="Primitives\TwoD\RegularPolygon.cs" />
-        <Compile Include="Primitives\TwoD\SimplePolygon.cs" />
-        <Compile Include="Primitives\TwoD\Trapezoid.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Texture.cs" />
         <Compile Include="Utils\ColorUtils.cs" />
+        <Compile Include="Utils\ImageSharpExt.cs" />
         <Compile Include="Utils\VectorUtils.cs" />
         <Compile Include="Window.cs" />
     </ItemGroup>
@@ -96,6 +103,15 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Shaders\fragmentShader.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Shaders\postProcessing.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Shaders\rayTracing.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Shaders\rayTracing1.glsl">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Shaders\vertexShader.glsl">
